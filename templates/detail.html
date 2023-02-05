@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+    <div class="row">
+       <div class="col-lg-8">
+        <h1 class="mt-4">{{article.Title}}</h1>
+        <p class="lead"> by {{article.Author.username}} </p>
+        <hr>
+        <p>Posted on {{article.createdDate}}</p>
+        <hr>
+        {% if article.article_image %}
+          <img class = 'img-fluid rounded' src="{{article.article_image.url}}" alt=""> 
+        {% else %}
+        {% endif %}
+        <p class="lead">
+            {{article.Content|safe}}
+        </p>
+        <hr>
+        <h3> Comments </h3>
+        <hr>
+        {% if comments %}
+        {% for comment in comments %}
+          <div class = "media mb-4" >
+            <img style = "margin-right:10px;" width = "50" height = "50" src="data:image/jpeg;base64,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" alt="Profile Photo">
+            <div class = "media-body" >
+              <h4 class = "mt-0"><strong> {{comment.comment_author}} </strong> <small>{{comment.comment_date}}</small></h4>
+              {{comment.comment_content}}
+            </div>
+          </div>
+        {% endfor %}
+        {% else %}
+          <div class = "alert alert-warning">
+            There is no comments here. Be the first commenter! ^_^
+          </div>
+        {% endif %}
+          
+        <div class = "card my-4" >
+          <h4 class = "card-header" > Write a Comment </h4>
+          <div class = "card-body" >
+            <form method = "POST" action = "{% url 'article:comment' article.id %}" >
+              {% csrf_token %}
+                <div class = "form-group" >
+                  <label for="formGroupExampleInput"> Name </label>
+                  <input name = "comment_author" type = "text" class = "form-control" id = "formGroupExampleInput" placeholder = "Enter Your Name" >
+                </div>
+                <div class = "form-group" >
+                  <label for="formGroupExampleInput"> Comment </label>
+                  <textarea name = "comment_content" class ="form-control" rows="3"></textarea>
+                </div>
+                <button type = "submit" class = "btn btn-info" > Send </button>
+            </form>      
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+{% endblock body %}

@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    
+    {% if articles %}
+        <div class = "row" >
+            <div class = "coll-md-6 offset-md-3">
+                <h2> Here The articles. </h2>
+                <hr>
+            </div>
+        </div>
+        <div class = "row" >
+            <div class = "coll-md-6 offset-md-3">
+                {% csrf_token %}
+                <form >
+                    <input type="text" name = "keyword" class = "input-sm" maxlength = "64" placeholder = "search" >
+                    <button type = "submit" class = "btn btn-primary btn-md"> Search </button>
+                </form>
+            </div>
+        </div>
+
+        {% for article in articles %}
+            <div class="row">
+                <div class = "coll-md-6 offset-md-3">
+                <div class="col-lg-8">
+                    <h1 class="mt-4"><a href="{% url 'article:detail' article.id %}"> {{article.Title}} </a></h1>
+                    <p class="lead"> Written By {{article.Author.username}} </p>
+                    <hr>
+                    <p> Posted on {{article.createdDate}} </p>
+                    <hr>
+                    {% if article.article_image %}
+                    <img class = 'img-fluid rounded' src="{{article.article_image.url}}" alt="Sorry :/ SomeThing Went Wrong"> 
+                    {% else %}
+                    {% endif %}
+                    <p class="lead">
+                        {{article.Content|safe|truncatewords:15}} <!-- safe provides that the page is showed like a normal page if we did not use it page is showed with HTML codes. -->
+                    </p>
+                        <a href="{% url 'article:detail' article.id %}" class = "btn btn-info" > Read More... </a>
+                    <hr>
+                </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    {% else %}
+        <div class = "alert alert-danger" > There is no Articles Here </div>
+    {% endif %}
+{% endblock body %}
